@@ -1,4 +1,4 @@
-<p align="center"><img src="https://go-theca.github.io/img/logo.svg" alt="go-theca" width="128"></p>
+<p align="center"><img src="https://raw.githubusercontent.com/go-theca/brand/main/social/go-theca.png" alt="go-theca" width="640"></p>
 
 <h1 align="center">go-theca</h1>
 <p align="center">Theca: an encrypted container format in pure Go, no cgo.</p>
@@ -17,9 +17,13 @@ A container format (a file or a block device that holds a volume) built from pub
 
 | | Repo | |
 |---|---|---|
-| <img src="https://go-theca.github.io/img/logo.svg" width="36"> | [`theca`](https://github.com/go-theca/theca) | The format: design, threat model, hardware keys, first primitives |
+| <img src="https://raw.githubusercontent.com/go-theca/brand/main/avatar/go-theca.png" width="36"> | [`theca`](https://github.com/go-theca/theca) | The format: design, threat model, hardware keys, first primitives |
 
 ## Links
 
+- Brand assets: <https://github.com/go-theca/brand>
 - Landing page: <https://go-theca.github.io/>
 - Docs: <https://go-theca.github.io/docs/>
+
+---
+<p align="center"><sub>Branding in <a href="https://github.com/go-theca/brand">go-theca/brand</a>.</sub></p>
