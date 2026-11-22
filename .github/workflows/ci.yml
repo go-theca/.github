@@ -74,11 +74,14 @@ jobs:
           [ -n "$refs" ] || { echo "no pinned action refs found -- grep is wrong"; exit 1; }
           while read -r ref; do
               repo="${ref%@*}"; rev="${ref##*@}"
-              if git ls-remote --refs "https://github.com/$repo" \
-                   "refs/tags/$rev" "refs/heads/$rev" | grep -q .; then
+              # Captured, not piped into `grep -q`: grep exits at the first match,
+              # git then dies of SIGPIPE and pipefail fails a ref that exists.
+              named=$(git ls-remote --refs "https://github.com/$repo" \
+                   "refs/tags/$rev" "refs/heads/$rev")
+              all=$(git ls-remote "https://github.com/$repo")
+              if [ -n "$named" ]; then
                 echo "ok       $ref"
-              elif [ "${#rev}" -eq 40 ] && \
-                   git ls-remote "https://github.com/$repo" | grep -q "^$rev"; then
+              elif [ "${#rev}" -eq 40 ] && grep -q "^$rev" <<< "$all"; then
                 echo "ok(sha)  $ref"
               else
                 echo "MISSING  $ref -- no such tag, branch or sha"; rc=1
@@ -348,3 +351,13 @@ jobs:
 # because there is no pin to bump. v46.2.4 and v46.2.5 both say '44': the
 # action bump these pull requests carry moves the runner's wrapper, not its
 # engine. Pinning that image by digest is a separate decision, not this file's.
+
+  actionpin:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
+      - uses: actions/setup-go@d8cbb8045d7f43706b9177cceb36c1f91a6644d5 # v7
+        with:
+          go-version: "1.27.4"
+      - run: go install github.com/go-fleettools/fleettools/cmd/actionpin@v0.154.0
+      - run: '"$(go env GOPATH)/bin/actionpin" .'
